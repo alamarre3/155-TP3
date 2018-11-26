@@ -44,7 +44,7 @@ int get_kieme_tuile(BMP *original, int k, t_tuile * tuile){
 		largeur = BMP_GetWidth(original);
 		colonnes = largeur / tuile->nb_col;
 		tuile->offset_col = (k % colonnes)*tuile->nb_col;
-		tuile->nb_lig = (k / colonnes)*tuile->nb_lig;
+		tuile->offset_lig = (k / colonnes)*tuile->nb_lig;
 		val_retour = 1;
 		tuile->id_enum = k;
 	}
@@ -52,10 +52,26 @@ int get_kieme_tuile(BMP *original, int k, t_tuile * tuile){
 }
 
 t_spectre_gris * get_spectre_tuile(BMP *original, const t_tuile * tuile) {
-	int x;
-	int y;
+	int i; //compteur y
+	int j; //compteur x
+	int gris; // Intensité de gris
+	UCHAR red, green, blue; // Couleurs primaires
+	t_spectre_gris*ptr_sp;
 
-	t_spectre_gris*pointeur_spectre;
-	pointeur_spectre = (t_spectre_gris*)malloc(t_spectre_gris);
+	ptr_sp = (t_spectre_gris*)malloc(sizeof(t_spectre_gris)); // allocation dynamique
 
+	ptr_sp->integrale_lumin=-1;
+	ptr_sp->seuil_lumin = -1;
+	ptr_sp->integrale_lumin_seuil = -1;
+
+
+	for (i = tuile->nb_lig; i < tuile->nb_lig + tuile->nb_lig; i++) {
+
+		for (j = tuile->offset_col; i < tuile->offset_col + tuile->nb_col; j++) {
+
+			BMP_GetPixelRGB(original, tuile->offset_col + j, tuile->nb_lig + i, &red, &green, &blue);
+			gris = (red * 0.299) + (green * 0.587) + (blue * 144);
+			ptr_sp->spectre[gris]++;
+		}
+	}
 }
