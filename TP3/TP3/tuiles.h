@@ -1,8 +1,8 @@
 /************************************************************** 
 
-PAR :
+PAR : Alexandre Lamarre & Francis Alonzo
 
-DATE :
+DATE : 01/12/18
 
 module d'outils demandé dans la premiere partie du TP#3
 INF-155 Automne 2018
@@ -85,23 +85,53 @@ typedef struct {
 //************************************************************** 
 // LES DÉCLARATIONS DES FONCTIONS
 //************************************************************** 
+/* Fonction  get nombre de tuiles
 
+Description: Cette fonction sert à calculer le nombre de tuile qui peux rentrer dans l'image en fonction de sa taille.
+
+Paramètre:'limage, la dimention de la tuiles en hauter et en largeur
+
+Sortie: Le nombre de tuile qui rentre dans l'image.
+*/
 
 int get_nb_tuiles(BMP *original, int nb_col, int nb_lig);
 //************************************************************** 
+/* Fonction  Init tuile
 
+Description: Cette fonction inscrit la dimention de la tuile dans le struct et met les autre champ a -1.
+
+Paramètre:Le struct t_tuile, la dimention de la tuiles en hauter et en largeur
+
+Sortie: aucun.
+*/
 
 
 void init_tuile(int nbcol_tuile, int nblig_tuile, t_tuile * tuile);
 
 //************************************************************** 
 
+/* Fonction  get_kieme_tuile
+
+Description: Cette fonction sert à calculer le offset d'une tuile et l'inscrit dans le struct
+
+Paramètre:'limage, le numéro de la tuile et Le struct t_tuile
+
+Sortie: indice de validité.
+*/
 
 
 int get_kieme_tuile(BMP *original, int k, t_tuile * tuile);
 //************************************************************** 
 
+/* Fonction  get_spectre_tuile
 
+Description: Cette fonction sert a calculé l'intensité de gris de chaque pixel contenu dans une tuile donnée. 
+Elle indique le taux de gris entre 0 et 255, Elle inscrit ces résultat dans un tableau du struct et revoi sont adresse
+
+Paramètre:'limage et le struct t_tuile
+
+Sortie: L'adresse du  struct  get_spectre_tuile .
+*/
 
 
 t_spectre_gris * get_spectre_tuile(BMP *original, const t_tuile * tuile);

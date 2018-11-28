@@ -60,11 +60,12 @@ t_spectre_gris * get_spectre_tuile(BMP *original, const t_tuile * tuile) {
 
 	ptr_sp = (t_spectre_gris*)malloc(sizeof(t_spectre_gris)); // allocation dynamique
 
+	// Mettre les déffinition non utilisé à -1
 	ptr_sp->integrale_lumin=-1;
 	ptr_sp->seuil_lumin = -1;
 	ptr_sp->integrale_lumin_seuil = -1;
 
-
+	// Compte le spectre de gris
 	for (i = tuile->nb_lig; i < tuile->nb_lig + tuile->nb_lig; i++) {
 
 		for (j = tuile->offset_col; i < tuile->offset_col + tuile->nb_col; j++) {
@@ -74,4 +75,5 @@ t_spectre_gris * get_spectre_tuile(BMP *original, const t_tuile * tuile) {
 			ptr_sp->spectre[gris]++;
 		}
 	}
+	return ptr_sp;
 }
