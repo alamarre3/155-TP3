@@ -168,5 +168,7 @@ void get_tuile(const t_spectre_gris * ptr_sp, t_tuile * tuile);
 void afficher_spectre(const t_spectre_gris *ptr_sp);
 
 //**************************************************************
+
+void calibrer_taille_tuile(BMP *original, int *nb_col, int *nb_lig);
 #endif
 //************************************************************** 

@@ -196,3 +196,28 @@ void afficher_spectre(const t_spectre_gris *ptr_sp) {
 		printf("%d : %lf.\n", i, ptr_sp->spectre[i]);
 	}
 }
+
+//************************************************************** 
+void calibrer_taille_tuile(BMP *original, int *nb_col, int *nb_lig) {
+	int largeur; // la largeur de l'image en pixel
+	int hauteur; // La hauteur de  l'image en pixel 
+	int colonnes; // Le nombre de tuiles en largeur
+	int lignes; // Le nombre de tuiles en hauteur
+	int nb_tuiles; // le nombre de tuiles possible 
+	int pixel_colonne; // Le nombre de pixel restant en colonne
+	int pixel_ligne; // Le nombre restant de poxe; en ligne
+	int 
+
+	hauteur = BMP_GetHeight(original);
+	largeur = BMP_GetWidth(original);
+
+
+	for (i = -5; i < 5; i++) {
+		colonnes = largeur / nb_col;
+		lignes = hauteur / nb_lig;
+
+		pixel_colonne = largeur % nb_col;
+		pixel_ligne = hauteur % nb_lig;
+	}
+	
+}
