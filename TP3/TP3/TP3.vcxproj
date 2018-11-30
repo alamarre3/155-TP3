@@ -124,7 +124,6 @@
   <ItemGroup>
     <ClInclude Include="m_distributions.h" />
     <ClInclude Include="qdbmp.h" />
-    <ClInclude Include="tuiles.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
