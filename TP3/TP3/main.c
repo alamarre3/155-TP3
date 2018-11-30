@@ -35,7 +35,7 @@ int main(void) {
 
 	md_srand();
 
-	original = BMP_ReadFile("image (2).bmp");
+	original = BMP_ReadFile("image.bmp");
 	codage = BMP_GetDepth(original);
 
 	do {
