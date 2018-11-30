@@ -1,7 +1,6 @@
 // ===== MODULE TUILE.C =====
 
 #include "tuiles.h"
-#include "qdbmp.h"
 
 //Fonction qui trouve ne nombre de tuile
 int get_nb_tuiles(BMP *original, int nb_col, int nb_lig) {
@@ -61,6 +60,11 @@ t_spectre_gris * get_spectre_tuile(BMP *original, const t_tuile * tuile) {
 	t_spectre_gris*ptr_sp;
 
 	ptr_sp = (t_spectre_gris*)malloc(sizeof(t_spectre_gris)); // allocation dynamique
+	assert(ptr_sp != NULL);
+
+	for (i = 0; i < NB_FREQUENCES; i++) {
+		ptr_sp->spectre[i] = 0;
+	}
 
 	// Mettre les déffinition non utilisé à -1
 	ptr_sp->integrale_lumin=-1;
@@ -70,10 +74,10 @@ t_spectre_gris * get_spectre_tuile(BMP *original, const t_tuile * tuile) {
 	// Compte le spectre de gris
 	for (i = tuile->nb_lig; i < tuile->nb_lig + tuile->nb_lig; i++) {
 
-		for (j = tuile->offset_col; i < tuile->offset_col + tuile->nb_col; j++) {
+		for (j = tuile->offset_col; j < tuile->offset_col + tuile->nb_col; j++) {
 
-			BMP_GetPixelRGB(original, tuile->offset_col + j, tuile->nb_lig + i, &red, &green, &blue);
-			gris = (red * 0.299) + (green * 0.587) + (blue * 144);
+			BMP_GetPixelRGB(original, j, i, &red, &green, &blue);
+			gris = (red * 0.299) + (green * 0.587) + (blue * 0.144);
 			ptr_sp->spectre[gris]++;
 		}
 	}
@@ -117,12 +121,11 @@ BMP * get_bitmap_tuile(BMP *original, const t_tuile * tuile) {
 
 	for (px = 0; px < tuile->nb_col; px++) {
 		for (py = 0; py < tuile->nb_lig; py++) {
-			BMP_GetPixelRGB(original, px, py, &red, &green, &blue);
+			BMP_GetPixelRGB(original, px + tuile->offset_col, py + tuile->offset_lig, &red, &green, &blue);
 			BMP_SetPixelRGB(nouvelle_image, px, py, red, green, blue);
 		}
 	}
 	return nouvelle_image;
-	BMP_Free(nouvelle_image);
 }
 
 //************************************************************** 
@@ -193,7 +196,7 @@ void afficher_spectre(const t_spectre_gris *ptr_sp) {
 
 	printf("\n==== Tableau du spectre de lumiere =====\n");
 	for (i = 0; i < NB_FREQUENCES; i++) {
-		printf("%d : %lf.\n", i, ptr_sp->spectre[i]);
+		printf("%d : %d.\n", i, ptr_sp->spectre[i]);
 	}
 }
 

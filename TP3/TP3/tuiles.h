@@ -19,6 +19,7 @@ le module offre les fonctions :
 
 // merci Chai Braudo pour le beau petit module Quick n' Dirty  
 #include "qdbmp.h"
+#include <assert.h>
 
 #define  NB_FREQUENCES  256     //nombre d'intensités et taille du spectre
 

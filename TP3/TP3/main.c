@@ -19,6 +19,7 @@ int main(void) {
 	// Déclaration des variables
 	UCHAR red, green, blue; // Valeur RGB d'un pixel
 	t_tuile *tuile;
+	t_spectre_gris *gris;
 	int nb_tuiles; // Nombre de tuiles de la nouvelle image
 	int numero_tuile; // Numéro de la tuile aléatoire
 	BMP * original;
@@ -34,7 +35,8 @@ int main(void) {
 
 	md_srand();
 
-	original = BMP_ReadFile("image.bmp");
+	original = BMP_ReadFile("image (2).bmp");
+	codage = BMP_GetDepth(original);
 
 	do {
 		printf("Entrer le nombre de colonnes de la tuile : ");
@@ -49,12 +51,16 @@ int main(void) {
 	tuile = (t_tuile*)malloc(sizeof(t_tuile));
 	init_tuile(colons, lignes, tuile);
 	nb_tuiles = get_nb_tuiles(original, colons, lignes);
-	printf("Nombre de tuiles : %d\n", nb_tuiles);
+	printf("Nombre de tuiles du recouvrement : %d\n", nb_tuiles);
 	numero_tuile = get_kieme_tuile(original, md_randint(0, nb_tuiles),tuile);
-	printf("Numero de tuiles : %d\n", tuile->id_enum);
-	
+	//printf("Numero de tuiles : %d\n", tuile->id_enum);
+	gris = get_spectre_tuile(original, tuile);
+	afficher_spectre(gris);
 
+	nouvelle = get_bitmap_tuile(original, tuile);
 
+	BMP_WriteFile(nouvelle, "newwae.bmp");
+	BMP_Free(nouvelle);
 
 
 	system("pause");
