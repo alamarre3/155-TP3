@@ -126,6 +126,7 @@ BMP * get_bitmap_tuile(BMP *original, const t_tuile * tuile) {
 		}
 	}
 	return nouvelle_image;
+	BMP_Free(nouvelle_image);
 }
 
 //************************************************************** 

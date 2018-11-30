@@ -35,7 +35,7 @@ int main(void) {
 
 	md_srand();
 
-	original = BMP_ReadFile("image (2).bmp");
+	original = BMP_ReadFile("image.bmp");
 	codage = BMP_GetDepth(original);
 
 	do {
@@ -58,10 +58,11 @@ int main(void) {
 	afficher_spectre(gris);
 
 	nouvelle = get_bitmap_tuile(original, tuile);
-
-	BMP_WriteFile(nouvelle, "newwae.bmp");
+	BMP_WriteFile(nouvelle, "RGBway.bmp");
 	BMP_Free(nouvelle);
-
+	nouvelle = get_bitmap_gris_tuile(original, tuile, 0.0);
+	BMP_WriteFile(nouvelle, "GRISway.bmp");
+	BMP_Free(nouvelle);
 
 	system("pause");
 	return 1;
