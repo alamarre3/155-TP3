@@ -2,7 +2,7 @@
 
 #include "tuiles.h"
 
-//Fonction qui trouve ne nombre de tuile
+//Fonction qui trouve le nombre de tuile
 int get_nb_tuiles(BMP *original, int nb_col, int nb_lig) {
 	// Déclaration de variables
 	int largeur; // la largeur de l'image en pixel
@@ -149,7 +149,7 @@ BMP * get_bitmap_gris_tuile(BMP *original, const t_tuile * tuile, double seuil_l
 
 	for (px = 0; px < tuile->nb_col; px++) {
 		for (py = 0; py < tuile->nb_lig; py++) {
-			BMP_GetPixelRGB(original, px, py, &red, &green, &blue);
+			BMP_GetPixelRGB(original, px + tuile->offset_col, py + tuile->offset_lig, &red, &green, &blue);
 			gris = (0.299 * red + 0.587 * green + 0.114 * blue);
 			gris = (gris / 255.0) < seuil_lum ? 0 : gris;
 			BMP_SetPixelRGB(nouvelle_image_grise, px, py, gris, gris, gris);

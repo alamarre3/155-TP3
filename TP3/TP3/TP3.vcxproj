@@ -119,11 +119,14 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="m_distributions.c" />
     <ClCompile Include="qdbmp.c" />
+    <ClCompile Include="recouvrement.c" />
     <ClCompile Include="tuiles.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="m_distributions.h" />
     <ClInclude Include="qdbmp.h" />
+    <ClInclude Include="recouvrement.h" />
+    <ClInclude Include="tuiles.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
