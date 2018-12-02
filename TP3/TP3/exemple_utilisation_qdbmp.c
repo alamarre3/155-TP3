@@ -33,7 +33,7 @@
 
 #define SEUIL_ROUGE 0.8
 
-int main(void) {
+/*int main(void) {
 
 	// pour conserver les valeurs RGB d'un pixel
 	UCHAR red, green, blue;
@@ -138,4 +138,4 @@ int main(void) {
 	// c'est fini
 	system("pause");
 	return 0;
-}
+}*/

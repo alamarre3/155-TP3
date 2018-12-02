@@ -19,6 +19,7 @@ le module offre les fonctions :
 
 // merci Chai Braudo pour le beau petit module Quick n' Dirty  
 #include "qdbmp.h"
+#include <assert.h>
 
 #define  NB_FREQUENCES  256     //nombre d'intensités et taille du spectre
 
@@ -133,18 +134,42 @@ Paramètre:'limage et le struct t_tuile
 Sortie: L'adresse du  struct  get_spectre_tuile .
 */
 
-
 t_spectre_gris * get_spectre_tuile(BMP *original, const t_tuile * tuile);
-//************************************************************** 
-
-
-
 
 //************************************************************** 
 
-
-
+double integrale_seuil_lum(t_spectre_gris * ptr_sp, double seuil_lum);
 
 //************************************************************** 
+
+BMP * get_bitmap_tuile(BMP *original, const t_tuile * tuile);
+
+//************************************************************** 
+
+BMP * get_bitmap_gris_tuile(BMP *original, const t_tuile * tuile, double seuil_lum);
+
+//**************************************************************
+
+double get_integrale_sans_seuil(const t_spectre_gris * ptr_sp);
+
+//************************************************************** 
+
+double get_seuil_luminosite(const t_spectre_gris * ptr_sp);
+
+//************************************************************** 
+
+double get_integrale_avec_seuil(const t_spectre_gris * ptr_sp);
+
+//************************************************************** 
+
+void get_tuile(const t_spectre_gris * ptr_sp, t_tuile * tuile);
+
+//************************************************************** 
+
+void afficher_spectre(const t_spectre_gris *ptr_sp);
+
+//**************************************************************
+
+void calibrer_taille_tuile(BMP *original, int *nb_col, int *nb_lig);
 #endif
 //************************************************************** 
