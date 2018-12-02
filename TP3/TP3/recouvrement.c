@@ -92,8 +92,8 @@ void calcul_integrales_seuil(t_recouvrement *rec, double seuil) {
 void trier_spectres(t_recouvrement *rec, double seuil) {
 
 	// Déclaration des variables
-	t_spectre_gris *ptr_sp1; // Pointeur vers un spectre1
-	t_spectre_gris *ptr_sp2; // Pointeur vers un spectre2
+	t_spectre_gris *ptr_sp1=!NULL; // Pointeur vers un spectre1
+	t_spectre_gris *ptr_sp2=!NULL; // Pointeur vers un spectre2
 	t_spectre_gris *ptr_sp_copie; // Pointeur vers un spectre copie
 	int i, j; // Valeurs d'incrémentation
 
@@ -139,7 +139,7 @@ BMP *reconstruire_image(BMP *original, const t_recouvrement *rec, double prop_ga
 int tuile_plus_lumineuse(const t_recouvrement *rec) {
 
 	// Déclaration des variables
-	t_spectre_gris *ptr_sp;	// Pointeur vers un spectre
+	t_spectre_gris *ptr_sp=!NULL;	// Pointeur vers un spectre
 	int i, max = 0; // Valeur d'incrémentation
 
 	for (i =0 ; i < rec->taille_tab_spectres; i++) {

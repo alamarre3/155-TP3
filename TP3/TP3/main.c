@@ -51,6 +51,8 @@ int main(void) {
 			scanf("%d", &lignes);
 		} while (lignes < 50 || lignes > nb_lig);
 
+		calibrer_taille_tuile(original, &colons, &lignes);
+		printf("nouvelle colonne: %d    nouvelle ligne: %d\n", colons, lignes);
 		nb_tuiles = get_nb_tuiles(original, colons, lignes);
 		printf("Nombre de tuiles du recouvrement : %d\n", nb_tuiles);
 		init_tuile(colons, lignes, tuile);
