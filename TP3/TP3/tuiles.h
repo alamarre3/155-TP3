@@ -20,7 +20,7 @@ le module offre les fonctions :
 // merci Chai Braudo pour le beau petit module Quick n' Dirty  
 #include "qdbmp.h"
 #include <assert.h>
-#define TOLLERANCE 50
+#define TOLLERANCE 40
 #define  NB_FREQUENCES  256     //nombre d'intensités et taille du spectre
 
 
@@ -175,5 +175,9 @@ void calibrer_taille_tuile(BMP *original, int *nb_col, int *nb_lig);
 //**************************************************************
 
 int tuiles_voisines(const t_tuile *tuile1, const t_tuile *tuile2);
+
+//**************************************************************
+// Fonction copier tuiles dans image
+void copier_tuile_ds_image(BMP *image_res, BMP *image_tu, const t_tuile *tuile, char titre[]);
 #endif
 //************************************************************** ************* 

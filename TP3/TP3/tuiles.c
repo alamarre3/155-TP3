@@ -1,6 +1,7 @@
 // ===== MODULE TUILE.C =====
 
 #include "tuiles.h"
+#include "qdbmp.h"
 
 //Fonction qui trouve le nombre de tuile
 int get_nb_tuiles(BMP *original, int nb_col, int nb_lig) {
@@ -36,13 +37,16 @@ int get_kieme_tuile(BMP *original, int k, t_tuile * tuile){
 	int hauteur; // La hauteur de  l'image en pixel 
 	int val_retour=0;
 	int colonnes;
+	int ligne;
 
 	if (k <= get_nb_tuiles(original, tuile->nb_col, tuile->nb_lig)) {
 
 		largeur = BMP_GetWidth(original);
+		hauteur = BMP_GetHeight(original);
 		colonnes = largeur / tuile->nb_col;
+		ligne = hauteur/ tuile->nb_lig;
 		tuile->offset_col = (k % colonnes)*tuile->nb_col;
-		tuile->offset_lig = (k / colonnes)*tuile->nb_lig;
+		tuile->offset_lig = (k % ligne)*tuile->nb_lig;
 		val_retour = 1;
 		tuile->id_enum = k;
 	}
@@ -204,6 +208,8 @@ void afficher_spectre(const t_spectre_gris *ptr_sp) {
 // Fonction Calibrer taille de la tuile
 
  void calibrer_taille_tuile(BMP *original, int *nb_col, int *nb_lig) {
+
+	 // Déclaration des variables
 	int largeur; // la largeur de l'image en pixel
 	int hauteur; // La hauteur de  l'image en pixel 
 	int min_colonnes = *nb_col; // Le nombre de pixel en largeur
@@ -243,6 +249,8 @@ void afficher_spectre(const t_spectre_gris *ptr_sp) {
 // Fonction tuiles voisines
 
 int tuiles_voisines(const t_tuile *tuile1, const t_tuile *tuile2) {
+
+	// Déclaration des variables
 	int hauteur_min, hauteur_max; // hauteur max et min de la frontiere.
 	int largeur_min, largeur_max; // largeur max et min de la frontiere.
 	int tuile2_col, tuile2_lig; // centre de la tuile 2.
@@ -264,4 +272,36 @@ int tuiles_voisines(const t_tuile *tuile1, const t_tuile *tuile2) {
 		validite = 1;
 	}
 	return validite;
+}
+//************************************************************** 
+// Fonction copier tuiles dans image
+void copier_tuile_ds_image(BMP *image_res, BMP *image_tu, const t_tuile *tuile, char titre[]) {
+
+	// Déclaration des variables
+	BMP*validation;
+
+
+	validation = get_bitmap_tuile(image_res, tuile);
+	
+	do{  
+		validation = BMP_ReadFile(titre);
+		if (BMP_GetError() != BMP_FILE_NOT_FOUND) {
+			if (titre[7] == 57) {
+				titre[6]++;
+				titre[7] = 48;
+			}
+			else titre[7]++;
+		}
+
+	} while (BMP_GetError() != BMP_FILE_NOT_FOUND);
+
+
+	image_tu = get_bitmap_tuile(image_res, tuile);
+	BMP_WriteFile(image_tu, titre);
+	BMP_Free(image_tu);
+	image_tu = get_bitmap_gris_tuile(image_res, tuile, 0);
+	BMP_WriteFile(image_tu, titre);
+	BMP_Free(image_tu);
+
+	return 0;
 }
