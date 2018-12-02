@@ -6,9 +6,9 @@
 
 #define  _CRT_SECURE_NO_WARNINGS
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "qdbmp.h"
 #include "tuiles.h"
@@ -34,6 +34,8 @@ int main(void) {
 	md_srand();
 
 	original = BMP_ReadFile("image.bmp");
+	nb_col = BMP_GetWidth(original);
+	nb_lig = BMP_GetHeight(original);
 	codage = BMP_GetDepth(original);
 	tuile = (t_tuile*)malloc(sizeof(t_tuile));
 	assert(tuile != NULL);
@@ -42,12 +44,12 @@ int main(void) {
 		do {
 			printf("Entrer le nombre de colonnes de la tuile : ");
 			scanf("%d", &colons);
-		} while (colons < 50 || colons > 1500);
+		} while (colons < 50 || colons > nb_col);
 
 		do {
 			printf("Entrer le nombre de lignes de la tuile : ");
 			scanf("%d", &lignes);
-		} while (lignes < 50 || lignes > 1500);
+		} while (lignes < 50 || lignes > nb_lig);
 
 		nb_tuiles = get_nb_tuiles(original, colons, lignes);
 		printf("Nombre de tuiles du recouvrement : %d\n", nb_tuiles);

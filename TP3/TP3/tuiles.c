@@ -4,23 +4,20 @@
 
 //Fonction qui trouve le nombre de tuile
 int get_nb_tuiles(BMP *original, int nb_col, int nb_lig) {
+	
 	// Déclaration de variables
 	int largeur; // la largeur de l'image en pixel
 	int hauteur; // La hauteur de  l'image en pixel 
 	int colonnes; // Le nombre de tuiles en largeur
 	int lignes; // Le nombre de tuiles en hauteur
-	int nb_tuiles; // le nombre de tuiles possible 
+	int nb_tuiles; // Le nombre de tuiles possible 
 
 	hauteur = BMP_GetHeight(original);
 	largeur = BMP_GetWidth(original);
-
 	colonnes = largeur / nb_col;
 	lignes = hauteur / nb_lig;
-
-	nb_tuiles = colonnes * lignes;
-
-	return (nb_tuiles);
-
+	
+	return colonnes * lignes;
 }
 
 // Fonction qui initialise une tuile
