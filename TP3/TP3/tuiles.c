@@ -69,7 +69,7 @@ t_spectre_gris * get_spectre_tuile(BMP *original, const t_tuile * tuile) {
 	ptr_sp->integrale_lumin_seuil = -1;
 
 	// Compte le spectre de gris
-	for (i = tuile->offset_lig; i < tuile->offset_lig + tuile->nb_lig; i++) {
+	for (i = tuile->offset_lig; i < tuile->nb_lig + tuile->nb_lig; i++) {
 
 		for (j = tuile->offset_col; j < tuile->offset_col + tuile->nb_col; j++) {
 
@@ -191,34 +191,77 @@ void afficher_spectre(const t_spectre_gris *ptr_sp) {
 
 	// Déclaration des variables
 	int i; // Valeur d'incrémentation
+ 
 
 	printf("\n==== Tableau du spectre de lumiere =====\n");
 	for (i = 0; i < NB_FREQUENCES; i++) {
-		printf("%d : %d\n", i, ptr_sp->spectre[i]);
+	
+			printf("%d : %d.\n", i, ptr_sp->spectre[i]);
 	}
 }
 
 //************************************************************** 
-/*void calibrer_taille_tuile(BMP *original, int *nb_col, int *nb_lig) {
+// Fonction Calibrer taille de la tuile
+
+ void calibrer_taille_tuile(BMP *original, int *nb_col, int *nb_lig) {
 	int largeur; // la largeur de l'image en pixel
 	int hauteur; // La hauteur de  l'image en pixel 
-	int colonnes; // Le nombre de tuiles en largeur
-	int lignes; // Le nombre de tuiles en hauteur
+	int min_colonnes = *nb_col; // Le nombre de pixel en largeur
+	int min_lignes = *nb_lig; // Le nombre min de pixel en hauteur
 	int nb_tuiles; // le nombre de tuiles possible 
 	int pixel_colonne; // Le nombre de pixel restant en colonne
-	int pixel_ligne; // Le nombre restant de poxe; en ligne
+	int pixel_ligne; // Le nombre restant de pixel en ligne
+	int pixel_recomander_col; // nombre de pixel recomander en colonnes
+	int pixel_recomander_ligne; // nombre de pixel recomander en ligne
+
 	int i;
 
 	hauteur = BMP_GetHeight(original);
 	largeur = BMP_GetWidth(original);
 
 
-	/*for (i = -5; i < 5; i++) {
-		colonnes = largeur / nb_col;
-		lignes = hauteur / nb_lig;
+	for (i = -TOLLERANCE; i < TOLLERANCE; i++) {
 
-		pixel_colonne = largeur % nb_col;
-		pixel_ligne = hauteur % nb_lig;
+		pixel_colonne = largeur % (*nb_col + i);
+		pixel_ligne = hauteur % (*nb_lig + i);
+
+		if (pixel_colonne < min_colonnes) {
+			min_colonnes = pixel_colonne;
+			pixel_recomander_col = *nb_col + i;
+		}
+		if (pixel_ligne < min_lignes) {
+			min_lignes = pixel_colonne;
+			pixel_recomander_ligne = *nb_lig + i;
+		}
+
 	}
-	
-}*/
+	*nb_col = pixel_recomander_col;
+	*nb_lig = pixel_recomander_ligne;
+	return 0;
+}
+//************************************************************** 
+// Fonction tuiles voisines
+
+int tuiles_voisines(const t_tuile *tuile1, const t_tuile *tuile2) {
+	int hauteur_min, hauteur_max; // hauteur max et min de la frontiere.
+	int largeur_min, largeur_max; // largeur max et min de la frontiere.
+	int tuile2_col, tuile2_lig; // centre de la tuile 2.
+	int validite = 0; // indice de validité.
+
+					  //trouver le centre de la tuile 2
+	tuile2_lig = tuile2->offset_lig + (tuile2->nb_lig / 2);
+	tuile2_col = tuile2->offset_col + (tuile2->nb_col / 2);
+
+	//création de la fontriere de la tuile 1
+	hauteur_min = tuile1->offset_lig - tuile1->nb_lig;
+	hauteur_max = tuile1->offset_lig + (tuile1->nb_lig * 2);
+
+	largeur_min = tuile1->offset_col - tuile1->nb_col;
+	largeur_max = tuile1->offset_col + (tuile1->nb_col * 2);
+
+	//vérifier si la tuile 2 se trouve dans la frontiere de la zone 1
+	if (tuile2_lig > hauteur_min && tuile2_lig < hauteur_max && tuile2_col>largeur_min && tuile2_col < largeur_max) {
+		validite = 1;
+	}
+	return validite;
+}
