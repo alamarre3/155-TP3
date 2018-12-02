@@ -69,7 +69,7 @@ t_spectre_gris * get_spectre_tuile(BMP *original, const t_tuile * tuile) {
 	ptr_sp->integrale_lumin_seuil = -1;
 
 	// Compte le spectre de gris
-	for (i = tuile->nb_lig; i < tuile->nb_lig + tuile->nb_lig; i++) {
+	for (i = tuile->offset_lig; i < tuile->offset_lig + tuile->nb_lig; i++) {
 
 		for (j = tuile->offset_col; j < tuile->offset_col + tuile->nb_col; j++) {
 
@@ -194,7 +194,7 @@ void afficher_spectre(const t_spectre_gris *ptr_sp) {
 
 	printf("\n==== Tableau du spectre de lumiere =====\n");
 	for (i = 0; i < NB_FREQUENCES; i++) {
-		printf("%d : %d.\n", i, ptr_sp->spectre[i]);
+		printf("%d : %d\n", i, ptr_sp->spectre[i]);
 	}
 }
 

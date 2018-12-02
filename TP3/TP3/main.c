@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "qdbmp.h"
 #include "tuiles.h"
 
@@ -40,51 +39,31 @@ int main(void) {
 	tuile = (t_tuile*)malloc(sizeof(t_tuile));
 	assert(tuile != NULL);
 
-	for (i = 0; i < 3; i++) {
-		do {
-			printf("Entrer le nombre de colonnes de la tuile : ");
-			scanf("%d", &colons);
-		} while (colons < 50 || colons > nb_col);
+	do {
+		printf("Entrer le nombre de colonnes de la tuile : ");
+		scanf("%d", &colons);
+	} while (colons < 50 || colons > nb_col);
 
-		do {
-			printf("Entrer le nombre de lignes de la tuile : ");
-			scanf("%d", &lignes);
-		} while (lignes < 50 || lignes > nb_lig);
+	do {
+		printf("Entrer le nombre de lignes de la tuile : ");
+		scanf("%d", &lignes);
+	} while (lignes < 50 || lignes > nb_lig);
 
-		nb_tuiles = get_nb_tuiles(original, colons, lignes);
-		printf("Nombre de tuiles du recouvrement : %d\n", nb_tuiles);
-		init_tuile(colons, lignes, tuile);
-		numero_tuile = get_kieme_tuile(original, md_randint(0, nb_tuiles), tuile);
-		gris = get_spectre_tuile(original, tuile);
-		afficher_spectre(gris);
-		switch (i) {
-		case 0:
-			nouvelle = get_bitmap_tuile(original, tuile);
-			BMP_WriteFile(nouvelle, "RGBway00.bmp");
-			BMP_Free(nouvelle);
-			nouvelle = get_bitmap_gris_tuile(original, tuile, 0);
-			BMP_WriteFile(nouvelle, "GRISway00.bmp");
-			BMP_Free(nouvelle);
-			break;
-		case 1 :
-			nouvelle = get_bitmap_tuile(original, tuile);
-			BMP_WriteFile(nouvelle, "RGBway01.bmp");
-			BMP_Free(nouvelle);
-			nouvelle = get_bitmap_gris_tuile(original, tuile, 0);
-			BMP_WriteFile(nouvelle, "GRISway01.bmp");
-			BMP_Free(nouvelle);
-			break;
-		case 2 :
-			nouvelle = get_bitmap_tuile(original, tuile);
-			BMP_WriteFile(nouvelle, "RGBway02.bmp");
-			BMP_Free(nouvelle);
-			nouvelle = get_bitmap_gris_tuile(original, tuile, 0);
-			BMP_WriteFile(nouvelle, "GRISway02.bmp");
-			BMP_Free(nouvelle);
-			break;
-		}
-		
-	}
+	nb_tuiles = get_nb_tuiles(original, colons, lignes);
+	printf("Nombre de tuiles du recouvrement : %d\n", nb_tuiles);
+	init_tuile(colons, lignes, tuile);
+	numero_tuile = get_kieme_tuile(original, md_randint(0, nb_tuiles), tuile);
+	printf("Numero de la tuile : %d\n", numero_tuile);
+	gris = get_spectre_tuile(original, tuile);
+	afficher_spectre(gris);
+
+	nouvelle = get_bitmap_tuile(original, tuile);
+	BMP_WriteFile(nouvelle, "RGBway00.bmp");
+	BMP_Free(nouvelle);
+	nouvelle = get_bitmap_gris_tuile(original, tuile, 0);
+	BMP_WriteFile(nouvelle, "GRISway00.bmp");
+	BMP_Free(nouvelle);
+
 	system("pause");
 	return 1;
 }
