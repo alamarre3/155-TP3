@@ -1,6 +1,8 @@
 // ===== MODULE RECOUVREMENT.C =====
 
 #include "recouvrement.h"
+#include "tuiles.h"
+#include "qdbmp.h"
 
 // Fonction : init_recouvrement
 

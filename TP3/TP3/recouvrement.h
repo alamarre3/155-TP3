@@ -63,7 +63,7 @@ void calcul_integrales_seuil(t_recouvrement *rec, double seuil);
 //**************************************************************
 // Fonction : trier_spectres
 
-void trier_spectres(t_recouvrement *rec, double seuil)
+void trier_spectres(t_recouvrement *rec, double seuil);
 
 //**************************************************************
 // Fonction : reconstruire_image

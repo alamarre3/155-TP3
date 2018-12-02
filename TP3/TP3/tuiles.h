@@ -1,4 +1,4 @@
-/************************************************************** 
+/**************************************************************
 
 PAR : Alexandre Lamarre & Francis Alonzo
 
@@ -10,7 +10,7 @@ INF-155 Automne 2018
 le module offre les fonctions :
 
 
-****************************************************************/ 
+****************************************************************/
 
 #ifndef __OUTILS_TUILE_H__
 #define __OUTILS_TUILE_H__
@@ -20,7 +20,7 @@ le module offre les fonctions :
 // merci Chai Braudo pour le beau petit module Quick n' Dirty  
 #include "qdbmp.h"
 #include <assert.h>
-
+#define TOLLERANCE 50
 #define  NB_FREQUENCES  256     //nombre d'intensités et taille du spectre
 
 
@@ -29,12 +29,12 @@ le module offre les fonctions :
 // DEUX TYPES ESSENTIELS dont voici la définition
 
 /*
-  LA TUILE
-  une tuile a une taille bien définie et occupe une position bien definie
-  dans un bitmap original
-  elle est représentée par 5 int ou 5 UINT (si on veut différencier)
+LA TUILE
+une tuile a une taille bien définie et occupe une position bien definie
+dans un bitmap original
+elle est représentée par 5 int ou 5 UINT (si on veut différencier)
 
-  UNE TUILE UTILE DANS CE TP EST OBTENU AVEC LA FONCTION get_kieme_tuile()
+UNE TUILE UTILE DANS CE TP EST OBTENU AVEC LA FONCTION get_kieme_tuile()
 */
 typedef struct {
 
@@ -42,7 +42,7 @@ typedef struct {
 	int offset_col; // decalage colonne
 	int offset_lig; // decalage ligne
 
-	//sa taille véritable en pixels
+					//sa taille véritable en pixels
 	int nb_col;
 	int nb_lig;
 
@@ -52,11 +52,11 @@ typedef struct {
 } t_tuile;
 
 /*
-  LE SPECTRE
-  c'est dans un spectre qu'on va conserver tout ce qui est pertinent à
-  la mesure de la luminosité d'une tuile
+LE SPECTRE
+c'est dans un spectre qu'on va conserver tout ce qui est pertinent à
+la mesure de la luminosité d'une tuile
 
-  UN SPECTRE UTILE DANS CE TP EST OBTENU AVEC LA FONCTION get_kieme_tuile()
+UN SPECTRE UTILE DANS CE TP EST OBTENU AVEC LA FONCTION get_kieme_tuile()
 */
 
 typedef struct {
@@ -76,8 +76,8 @@ typedef struct {
 	// de luminosité seuillée
 	double seuil_lumin;     // le seuil entre 0 et 1
 
-	// idem à l'integrale précédente sauf que tous les i tels que
-	// (i/255.0) < seuil_lumen ne sont PAS considérés dans la sommation
+							// idem à l'integrale précédente sauf que tous les i tels que
+							// (i/255.0) < seuil_lumen ne sont PAS considérés dans la sommation
 	double integrale_lumin_seuil;
 
 }t_spectre_gris;
@@ -126,7 +126,7 @@ int get_kieme_tuile(BMP *original, int k, t_tuile * tuile);
 
 /* Fonction  get_spectre_tuile
 
-Description: Cette fonction sert a calculé l'intensité de gris de chaque pixel contenu dans une tuile donnée. 
+Description: Cette fonction sert a calculé l'intensité de gris de chaque pixel contenu dans une tuile donnée.
 Elle indique le taux de gris entre 0 et 255, Elle inscrit ces résultat dans un tableau du struct et revoi sont adresse
 
 Paramètre:'limage et le struct t_tuile
@@ -171,5 +171,9 @@ void afficher_spectre(const t_spectre_gris *ptr_sp);
 //**************************************************************
 
 void calibrer_taille_tuile(BMP *original, int *nb_col, int *nb_lig);
+
+//**************************************************************
+
+int tuiles_voisines(const t_tuile *tuile1, const t_tuile *tuile2);
 #endif
-//************************************************************** 
+//************************************************************** ************* 
