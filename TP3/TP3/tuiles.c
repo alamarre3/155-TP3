@@ -39,7 +39,7 @@ int get_kieme_tuile(BMP *original, int k, t_tuile * tuile){
 	int val_retour=0;
 	int colonnes;
 
-	if (k <= get_nb_tuiles(BMP *original, tuile->nb_col, tuile->nb_lig)) {
+	if (k <= get_nb_tuiles(original, tuile->nb_col, tuile->nb_lig)) {
 
 		largeur = BMP_GetWidth(original);
 		colonnes = largeur / tuile->nb_col;
