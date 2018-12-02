@@ -24,11 +24,11 @@ int main(void) {
 	int numero_tuile; // Numéro de la tuile aléatoire
 	BMP * original;
 	int nb_col, nb_lig, codage, i;
-
-
+	BMP * nouvelle;
+	char titre[] = "RGBway00.bmp";
 	// la nouvelle image extraite de l'originale
 	// et ses valeurs de taille et d'offsets
-	BMP * nouvelle;
+	
 	int col_depart, lig_depart, colons = 0, lignes = 0;
 
 	md_srand();
@@ -39,6 +39,9 @@ int main(void) {
 	codage = BMP_GetDepth(original);
 	tuile = (t_tuile*)malloc(sizeof(t_tuile));
 	assert(tuile != NULL);
+
+	
+
 
 	for (i = 0; i < 3; i++) {
 		do {
@@ -59,9 +62,13 @@ int main(void) {
 		numero_tuile = get_kieme_tuile(original, md_randint(0, nb_tuiles), tuile);
 		gris = get_spectre_tuile(original, tuile);
 		afficher_spectre(gris);
-		switch (i) {
+		nouvelle = get_bitmap_tuile(original, tuile);
+		copier_tuile_ds_image(original, nouvelle, tuile,titre);
+		printf("l'image a ete enregistre sous : %s\n\n", titre);
+		/*switch (i) {
 		case 0:
 			nouvelle = get_bitmap_tuile(original, tuile);
+			copier_tuile_ds_image(original, nouvelle, tuile);
 			BMP_WriteFile(nouvelle, "RGBway00.bmp");
 			BMP_Free(nouvelle);
 			nouvelle = get_bitmap_gris_tuile(original, tuile, 0);
@@ -84,7 +91,7 @@ int main(void) {
 			BMP_WriteFile(nouvelle, "GRISway02.bmp");
 			BMP_Free(nouvelle);
 			break;
-		}
+		}*/
 		
 	}
 	system("pause");
