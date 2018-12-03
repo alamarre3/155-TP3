@@ -2,6 +2,7 @@
 
 #include "recouvrement.h"
 
+
 // Fonction : init_recouvrement
 
 t_recouvrement * init_recouvrement(int nb_tuiles, int nb_col_tuile, int nb_lig_tuile) {
@@ -90,8 +91,8 @@ void calcul_integrales_seuil(t_recouvrement *rec, double seuil) {
 void trier_spectres(t_recouvrement *rec, double seuil) {
 
 	// Déclaration des variables
-	t_spectre_gris *ptr_sp1=!NULL; // Pointeur vers un spectre1
-	t_spectre_gris *ptr_sp2=!NULL; // Pointeur vers un spectre2
+	t_spectre_gris *ptr_sp1=NULL; // Pointeur vers un spectre1
+	t_spectre_gris *ptr_sp2=NULL; // Pointeur vers un spectre2
 	t_spectre_gris *ptr_sp_copie; // Pointeur vers un spectre copie
 	int i, j; // Valeurs d'incrémentation
 
@@ -117,6 +118,10 @@ BMP *reconstruire_image(BMP *original, const t_recouvrement *rec, double prop_ga
 	int colonnes, lignes, codage; // Taille de l'image
 	double seuil_lumiere; // Seuil de lumière le plus lumineuse
 	double ratio_r; // Ratio utilisé pour décider les tuiles à conserver
+	int borne_grande, borne_petite;
+	int *tab_r;
+	tab_r = (int*)malloc(rec->taille_tab_spectres * sizeof(int));
+	assert(tab_r != NULL);
 
 	colonnes = BMP_GetWidth(original);
 	lignes = BMP_GetHeight(original);
@@ -137,7 +142,7 @@ BMP *reconstruire_image(BMP *original, const t_recouvrement *rec, double prop_ga
 int tuile_plus_lumineuse(const t_recouvrement *rec) {
 
 	// Déclaration des variables
-	t_spectre_gris *ptr_sp=!NULL;	// Pointeur vers un spectre
+	t_spectre_gris *ptr_sp=NULL;	// Pointeur vers un spectre
 	int i, max = 0; // Valeur d'incrémentation
 
 	for (i =0 ; i < rec->taille_tab_spectres; i++) {
@@ -147,4 +152,16 @@ int tuile_plus_lumineuse(const t_recouvrement *rec) {
 		}
 	}
 	return max;
+}
+
+int Classe_tuile(const t_recouvrement *rec,int tab_r[], double prop_garde, double prop_min, double Seuil_lumiere, int*b_max,int*b_min) {
+	// Déclaration des variables
+	t_spectre_gris *ptr_sp = NULL;
+	int i;
+	double validite;
+
+	for (i = 0; i > rec->taille_tab_spectres; i++) {
+		ptr_sp = get_kieme_ptr_sp(rec, i);
+		validite = ptr_sp->seuil_lumin;
+	}
 }
