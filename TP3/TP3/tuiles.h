@@ -178,6 +178,9 @@ int tuiles_voisines(const t_tuile *tuile1, const t_tuile *tuile2);
 
 //**************************************************************
 // Fonction copier tuiles dans image
+
 void copier_tuile_ds_image(BMP *image_res, BMP *image_tu, const t_tuile *tuile, char titre[]);
+
+//************************************************************** 
+
 #endif
-//************************************************************** ************* 

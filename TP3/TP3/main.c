@@ -25,7 +25,6 @@ int main(void) {
 	BMP * original;
 	int nb_col, nb_lig, codage, i;
 	BMP * nouvelle;
-	char titre[] = "RGBway00.bmp";
 	// la nouvelle image extraite de l'originale
 	// et ses valeurs de taille et d'offsets
 	
@@ -62,13 +61,12 @@ int main(void) {
 		numero_tuile = get_kieme_tuile(original, md_randint(0, nb_tuiles), tuile);
 		gris = get_spectre_tuile(original, tuile);
 		afficher_spectre(gris);
-		nouvelle = get_bitmap_tuile(original, tuile);
+		/*nouvelle = get_bitmap_tuile(original, tuile);
 		copier_tuile_ds_image(original, nouvelle, tuile,titre);
-		printf("l'image a ete enregistre sous : %s\n\n", titre);
-		/*switch (i) {
+		printf("l'image a ete enregistre sous : %s\n\n", titre);*/
+		switch (i) {
 		case 0:
 			nouvelle = get_bitmap_tuile(original, tuile);
-			copier_tuile_ds_image(original, nouvelle, tuile);
 			BMP_WriteFile(nouvelle, "RGBway00.bmp");
 			BMP_Free(nouvelle);
 			nouvelle = get_bitmap_gris_tuile(original, tuile, 0);
@@ -79,7 +77,7 @@ int main(void) {
 			nouvelle = get_bitmap_tuile(original, tuile);
 			BMP_WriteFile(nouvelle, "RGBway01.bmp");
 			BMP_Free(nouvelle);
-			nouvelle = get_bitmap_gris_tuile(original, tuile, 0);
+			nouvelle = get_bitmap_gris_tuile(original, tuile, 0.2);
 			BMP_WriteFile(nouvelle, "GRISway01.bmp");
 			BMP_Free(nouvelle);
 			break;
@@ -87,11 +85,11 @@ int main(void) {
 			nouvelle = get_bitmap_tuile(original, tuile);
 			BMP_WriteFile(nouvelle, "RGBway02.bmp");
 			BMP_Free(nouvelle);
-			nouvelle = get_bitmap_gris_tuile(original, tuile, 0);
+			nouvelle = get_bitmap_gris_tuile(original, tuile, 0.50);
 			BMP_WriteFile(nouvelle, "GRISway02.bmp");
 			BMP_Free(nouvelle);
 			break;
-		}*/
+		}
 		
 	}
 	system("pause");

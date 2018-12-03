@@ -66,6 +66,7 @@ t_spectre_gris * get_kieme_ptr_sp(const t_recouvrement *rec, int k) {
 			ptr_k = ptr_sp;
 		}
 	}
+	assert(ptr_k != NULL);
 	return ptr_k;
 }
 
@@ -78,7 +79,7 @@ void calcul_integrales_seuil(t_recouvrement *rec, double seuil) {
 	int i; // Valeur d'incrémentation
 
 	for (i = 0; i < rec->taille_tab_spectres; i++) {
-		ptr_sp = rec->tab_spectres[i];
+		ptr_sp = get_kieme_ptr_sp(rec, i);
 		if (seuil != ptr_sp->seuil_lumin) {
 			ptr_sp->seuil_lumin = seuil;
 			ptr_sp->integrale_lumin_seuil = get_integrale_avec_seuil(ptr_sp);
@@ -91,19 +92,20 @@ void calcul_integrales_seuil(t_recouvrement *rec, double seuil) {
 void trier_spectres(t_recouvrement *rec, double seuil) {
 
 	// Déclaration des variables
-	t_spectre_gris *ptr_sp1=NULL; // Pointeur vers un spectre1
-	t_spectre_gris *ptr_sp2=NULL; // Pointeur vers un spectre2
+	t_spectre_gris *ptr_sp1 = NULL; // Pointeur vers un spectre1
+	t_spectre_gris *ptr_sp2 = NULL; // Pointeur vers un spectre2
 	t_spectre_gris *ptr_sp_copie; // Pointeur vers un spectre copie
 	int i, j; // Valeurs d'incrémentation
 
+	calcul_integrales_seuil(rec, seuil);
+
 	for (i = rec->taille_tab_spectres; i > 1; i--){
 		for (j = 1; j < rec->taille_tab_spectres; j++){
-			rec->tab_spectres[j] = ptr_sp1;
-			rec->tab_spectres[j-1] = ptr_sp2;
-			if (ptr_sp1->seuil_lumin < ptr_sp2->seuil_lumin){
-				ptr_sp_copie = rec->tab_spectres[j - 1];
-				rec->tab_spectres[j - 1] = rec->tab_spectres[j];
-				rec->tab_spectres[j] = ptr_sp_copie;
+			ptr_sp1 = get_kieme_ptr_sp(rec, j);
+			ptr_sp2 = get_kieme_ptr_sp(rec, j - 1);
+			if (ptr_sp1->seuil_lumin > ptr_sp2->seuil_lumin){
+				rec->tab_spectres[j - 1] = ptr_sp1;
+				rec->tab_spectres[j] = ptr_sp2;
 			}
 		}
 	}
@@ -116,22 +118,23 @@ BMP *reconstruire_image(BMP *original, const t_recouvrement *rec, double prop_ga
 	//Déclaration des variables
 	BMP *nouvelle; // Nouvelle image
 	int colonnes, lignes, codage; // Taille de l'image
-	double seuil_lumiere; // Seuil de lumière le plus lumineuse
-	double ratio_r; // Ratio utilisé pour décider les tuiles à conserver
-	int borne_grande, borne_petite;
-	int *tab_r;
-	tab_r = (int*)malloc(rec->taille_tab_spectres * sizeof(int));
-	assert(tab_r != NULL);
+	int i; // Valeur d'incrémentation
+	int tuile_lumineuse; // Nombre de tuiles du tableau de spectre qui sont inclut dans le tableau
+	int seuil; // Seuil de lumière entré par l'utilisateur
+	char titre[] = "RGBway00.bmp"; // Titre de la nouvelle image
 
 	colonnes = BMP_GetWidth(original);
 	lignes = BMP_GetHeight(original);
 	codage = BMP_GetDepth(original);
 	nouvelle = BMP_Create(colonnes,lignes,codage);
 
-	seuil_lumiere = tuile_plus_lumineuse(rec);
-
-
+	printf("Seuil de lumiere voulu pour la nouvelle image : ");
+	scanf("%d", &seuil);
+	tuile_lumineuse = tableau_tuile_lumineuse(rec, prop_garde, prop_min, seuil);
 	
+	for (i = 0; i < tuile_lumineuse; i++) {
+		copier_tuile_ds_image(nouvelle, original, rec->tab_spectres[i], titre);
+	}
 
 	return nouvelle;
 	BMP_Free(nouvelle);
@@ -146,7 +149,7 @@ int tuile_plus_lumineuse(const t_recouvrement *rec) {
 	int i, max = 0; // Valeur d'incrémentation
 
 	for (i =0 ; i < rec->taille_tab_spectres; i++) {
-		rec->tab_spectres[i] = ptr_sp;
+		ptr_sp = get_kieme_ptr_sp(rec, i);
 		if (max < ptr_sp->integrale_lumin) {
 			max = ptr_sp->integrale_lumin;
 		}
@@ -154,14 +157,58 @@ int tuile_plus_lumineuse(const t_recouvrement *rec) {
 	return max;
 }
 
-int Classe_tuile(const t_recouvrement *rec,int tab_r[], double prop_garde, double prop_min, double Seuil_lumiere, int*b_max,int*b_min) {
-	// Déclaration des variables
-	t_spectre_gris *ptr_sp = NULL;
-	int i;
-	double validite;
+// Fonction : tableau_tuile_lumineuse
 
-	for (i = 0; i > rec->taille_tab_spectres; i++) {
-		ptr_sp = get_kieme_ptr_sp(rec, i);
-		validite = ptr_sp->seuil_lumin;
+int tableau_tuile_lumineuse(const t_recouvrement *rec, double prop_garde, double prop_min, double seuil) {
+	// Déclaration des variables
+	int i, j;
+	int tampon; // Tampon utilisé pour le test de validité pour la vérification d'une tuile voisine
+	int validite;
+	double io;
+	int copie_direct = 0; // Nombre de tuiles dont le ratio du spectre lumineux est plus grand que prop_garde
+	int	copie_indirect = 0; // Nombre de tuiles dont le ratio du spectre lumineux est plus grand que prop_min et adjacent à une copie_direct
+
+	trier_spectres(rec, seuil);
+	io = tuile_plus_lumineuse(rec);
+
+	for (i = 0; i < rec->taille_tab_spectres; i++) {
+		if (get_integrale_avec_seuil(rec->tab_spectres[i]) / io > prop_garde) {
+			copie_direct++;
+		}
 	}
+	for (i = copie_direct-1; i < rec->taille_tab_spectres; i++) {
+		if (get_integrale_avec_seuil(rec->tab_spectres[i]) / io > prop_min) {
+			for (j = 0; j > copie_direct; j++) {
+				tampon = tuiles_voisines(rec->tab_spectres[i], rec->tab_spectres[j]);
+				printf("%d", tampon);
+				if (tampon == 1) {
+					validite = tampon;
+				}
+			}
+			if (validite == 1) {
+				copie_indirect++;
+			}
+			else {
+				criss_cross_spectre(rec, rec->tab_spectres[j], j);
+			}
+			validite = 0;
+		}
+	}
+	return copie_direct + copie_indirect;
+}
+
+// Fonction : mettre_spectre_fin
+
+void criss_cross_spectre(t_recouvrement *rec, t_spectre_gris *ptr_sp, int pos) {
+
+	// Déclaration des variables
+	int i; // Valeur d'incrémentation
+	t_spectre_gris *tampon; // Tampon du spectre à déplacer
+
+	tampon = rec->tab_spectres[pos];
+
+	for (i = pos; i < rec->taille_tab_spectres-1; i++) {
+		rec->tab_spectres[i] = rec->tab_spectres[i + 1];
+	}
+	rec->tab_spectres[i] = tampon;
 }

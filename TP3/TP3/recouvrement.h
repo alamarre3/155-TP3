@@ -75,12 +75,11 @@ BMP *reconstruire_image(BMP * original, const t_recouvrement *rec, double prop_g
 
 int tuile_plus_lumineuse(const t_recouvrement *rec);
 
+//**************************************************************
+// Fonction : criss_cross_spectre
 
+void criss_cross_spectre(t_recouvrement *rec, t_spectre_gris *ptr_sp, int pos);
 
-
-
-
-
-
+//**************************************************************
 
 #endif // !_OUTIL_RECOUVREMENT_H_
