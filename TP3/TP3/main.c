@@ -13,6 +13,7 @@
 #include "tuiles.h"
 #include "recouvrement.h"
 
+FILE * ouvrir_fich_data(const char * nom_fich, int * nb_tests);
 
 int main(void) {
 
@@ -92,4 +93,14 @@ int main(void) {
 		
 	system("pause");
 	return 1;
+}
+FILE * ouvrir_fich_data(const char * nom_fich, int * nb_tests) {
+
+	int nb_ligne;
+	FILE *fichier_txt;
+	fichier_txt; = fopen(nom_fich, "r")
+		if (fichier_txt == null) {
+			nb_ligne = -1;
+		}
+	return 0;
 }
