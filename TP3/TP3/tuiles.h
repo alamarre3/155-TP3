@@ -137,10 +137,29 @@ Sortie: L'adresse du  struct  get_spectre_tuile .
 t_spectre_gris * get_spectre_tuile(BMP *original, const t_tuile * tuile);
 
 //************************************************************** 
+/* 
+Fonction : integrale_seuil_lum
+ - Description : Calcul de l'intégrale du spectre lumineux avec un seuil donné.
+	La valeur de retour est de -1 si le seuil donné n'est pas entre 0 et 1.	
+ - Paramètres :
+	- t_spectre_gris *ptr_sp : Un pointeur vers un spectre (struct)
+	- double seuil_lum : Seuil de lumière du spectre
+ - Sortie :
+	- double : Seuil de lumière calculé  
+*/
 
 double integrale_seuil_lum(t_spectre_gris * ptr_sp, double seuil_lum);
 
 //************************************************************** 
+/*
+Fonction : get_bitmap_tuile
+ - Description : Fait une copie de la tuile dans l'image originale en couleur
+	dans une nouvelle image de la taille de la tuille.
+ - Paramètres :
+	- BMP *original : Image originale en BMP
+	- t_tuile *tuile : Un pointeur vers une tuile (struct)
+
+*/
 
 BMP * get_bitmap_tuile(BMP *original, const t_tuile * tuile);
 
