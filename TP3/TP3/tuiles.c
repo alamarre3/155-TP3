@@ -3,7 +3,7 @@
 #include "tuiles.h"
 #include "qdbmp.h"
 
-//Fonction qui trouve le nombre de tuile
+//Fonction : get_nb_tuiles
 int get_nb_tuiles(BMP *original, int nb_col, int nb_lig) {
 	
 	// Déclaration de variables
@@ -11,7 +11,6 @@ int get_nb_tuiles(BMP *original, int nb_col, int nb_lig) {
 	int hauteur; // La hauteur de  l'image en pixel 
 	int colonnes; // Le nombre de tuiles en largeur
 	int lignes; // Le nombre de tuiles en hauteur
-	int nb_tuiles; // Le nombre de tuiles possible 
 
 	hauteur = BMP_GetHeight(original);
 	largeur = BMP_GetWidth(original);

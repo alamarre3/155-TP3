@@ -82,7 +82,12 @@ void calcul_integrales_seuil(t_recouvrement *rec, double seuil) {
 		ptr_sp = get_kieme_ptr_sp(rec, i);
 		if (seuil != ptr_sp->seuil_lumin) {
 			ptr_sp->seuil_lumin = seuil;
-			ptr_sp->integrale_lumin_seuil = get_integrale_avec_seuil(ptr_sp);
+			if (integrale_seuil_lum(ptr_sp, seuil) < 0) {
+				printf("Un probleme est survenu dans le calcul d'un spectre.");
+			}
+		}
+		else {
+			ptr_sp->integrale_lumin_seuil = ptr_sp->integrale_lumin;
 		}
 	}
 }
@@ -103,7 +108,7 @@ void trier_spectres(t_recouvrement *rec, double seuil) {
 		for (j = 1; j < rec->taille_tab_spectres; j++){
 			ptr_sp1 = get_kieme_ptr_sp(rec, j);
 			ptr_sp2 = get_kieme_ptr_sp(rec, j - 1);
-			if (ptr_sp1->seuil_lumin > ptr_sp2->seuil_lumin){
+			if (ptr_sp1->integrale_lumin_seuil > ptr_sp2->integrale_lumin_seuil){
 				rec->tab_spectres[j - 1] = ptr_sp1;
 				rec->tab_spectres[j] = ptr_sp2;
 			}
@@ -120,16 +125,13 @@ BMP *reconstruire_image(BMP *original, const t_recouvrement *rec, double prop_ga
 	int colonnes, lignes, codage; // Taille de l'image
 	int i; // Valeur d'incrémentation
 	int tuile_lumineuse; // Nombre de tuiles du tableau de spectre qui sont inclut dans le tableau
-	int seuil; // Seuil de lumière entré par l'utilisateur
 	char titre[] = "RGBway00.bmp"; // Titre de la nouvelle image
 
 	colonnes = BMP_GetWidth(original);
 	lignes = BMP_GetHeight(original);
 	codage = BMP_GetDepth(original);
 	nouvelle = BMP_Create(colonnes,lignes,codage);
-
-	printf("Seuil de lumiere voulu pour la nouvelle image : ");
-	scanf("%d", &seuil);
+		
 	tuile_lumineuse = tableau_tuile_lumineuse(rec, prop_garde, prop_min, seuil);
 	
 	for (i = 0; i < tuile_lumineuse; i++) {
