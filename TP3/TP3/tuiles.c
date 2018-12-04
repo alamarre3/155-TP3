@@ -302,6 +302,4 @@ void copier_tuile_ds_image(BMP *image_res, BMP *image_tu, const t_tuile *tuile, 
 	image_tu = get_bitmap_gris_tuile(image_res, tuile, 0);
 	BMP_WriteFile(image_tu, titre);
 	BMP_Free(image_tu);
-
-	return 0;
 }
