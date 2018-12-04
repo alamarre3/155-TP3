@@ -132,11 +132,11 @@ BMP *reconstruire_image(BMP *original, const t_recouvrement *rec, double prop_ga
 	codage = BMP_GetDepth(original);
 	nouvelle = BMP_Create(colonnes,lignes,codage);
 		
-	tuile_lumineuse = tableau_tuile_lumineuse(rec, prop_garde, prop_min, seuil);
+	//tuile_lumineuse = tableau_tuile_lumineuse(rec, prop_garde, prop_min, seuil);
 	
-	for (i = 0; i < tuile_lumineuse; i++) {
+	/*for (i = 0; i < tuile_lumineuse; i++) {
 		copier_tuile_ds_image(nouvelle, original, rec->tab_spectres[i], titre);
-	}
+	}*/
 
 	return nouvelle;
 	BMP_Free(nouvelle);
