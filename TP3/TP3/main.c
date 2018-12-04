@@ -13,6 +13,7 @@
 #include "tuiles.h"
 
 FILE * ouvrir_fich_data(const char * nom_fich, int * nb_tests);
+int lire_donnees_fich(FILE * fich, char * nom_image, double *seuil,int * nb_col_tu, int * nb_lig_tu, double * prop_garde, double * prop_min);
 
 int main(void) {
 
@@ -91,5 +92,21 @@ FILE * ouvrir_fich_data(const char * nom_fich, int * nb_tests) {
 		if (fichier_txt == null) {
 			nb_ligne = -1;
 		}
-	return 0;
+		else {
+			rewind(fichier_txt);
+			nb_ligne = fgetc(nom_fich);
+			fscanf("\n");
+		}
+
+	return nb_ligne;
+}
+int lire_donnees_fich(FILE * fich, char * nom_image, double *seuil, int * nb_col_tu, int * nb_lig_tu, double * prop_garde, double * prop_min) {
+
+	// Déclaration des variables
+	int validite = 1;
+
+	fscanf(fich, "%lf %d %d %lf% %lf\n", seuil, nb_col_tu, nb_lig_tu, prop_garde, prop_min);
+	if (nb_col_tu == NULL || nb_lig_tu == NULL)validite = 0;
+
+	return validite;
 }
